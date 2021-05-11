@@ -1,55 +1,72 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import AnswerDisplay from './answerDisplay';
 
 class Calculator extends Component {
     state = {
-        question: '',
-        answers: []
+        inputs: '',
+        question: ''
     }
 
     componentDidMount = () => {
-        console.log(this.state);
+        console.log('mounted state', this.state, 'and its props', this.props);
+        this.getOperations();
+    }
+      
+    getOperations = () => {
+        axios.get('http://localhost:5000/api/operations').then((response) => {
+            for (let index = 0; index < response.data.length; index++) {
+                const element = response.data[index];
+                this.setState({ question: [...this.state.question, ...[element.question]] })
+            }
+            console.log('results from get', response.data, 'and now the state is', this.state);
+        }).catch((error) => {
+            console.log('error fetching operations data', error);
+        });
     }
 
     setInput = (event) => {
-        this.setState({ question: this.state.question.concat(Number(event.target.value)) });
+        this.setState({ inputs: this.state.inputs.concat(Number(event.target.value)) });
     }
     
     setOperator = (event) => {
-        if(this.state.question === '') {
+        if(this.state.inputs === '') {
             alert('Please enter a number first')
         } else {
-            this.setState({ question: this.state.question.concat(' ' + event.target.value + ' ') });
+            this.setState({ inputs: this.state.inputs.concat(' ' + event.target.value + ' ') });
         }
     }
     
     clearInputs = () => {
         this.setState({
-            question: ''
+            inputs: ''
         });
     }
 
     handleOperation = () => {
         // to verify the equation is in proper syntax
-        const check = this.state.question.charAt(this.state.question.length-1)
+        const check = this.state.inputs.charAt(this.state.inputs.length-1)
         if(check === ' ') {
             alert('Please enter another number.')
         }
         else {
-            const answer = eval(this.state.question);
-            this.state.answers.push(answer);
-            this.clearInputs();
-            this.props.dispatch( {type: 'ADD_EQUATION', payload: this.state})
+            axios.post('http://localhost:5000/api/operations', this.state)
+            .then(() => this.getOperations())
+            .catch(error => {
+                console.log('error making POST', error);
+            });
+        window.location.reload();
         }
     }
 
     render() {
         return (
             <div className="App">
-                <p>{!this.state.question ? (
+                <p>{!this.state.inputs ? (
                     '.'
                 ) : (
-                    this.state.question
+                    this.state.inputs
                 )}</p>
                 <form className="calculator-frame">
                     <div className="calculator-row">
@@ -176,20 +193,42 @@ class Calculator extends Component {
                         CLEAR
                     </button>
                 </form>
-                {JSON.stringify(this.props.reduxState)}
                 <div>
-                    <ul>
+                    {/* <ul>
                         {this.state.answers.length > 10 ? (
                             this.props.reduxState.slice(this.state.answers.length - 10, this.state.answers.length).map((answer) => {
                                 return <li>{answer.question} = {eval(answer.question)}</li>
                             })
-                        ) : (
-                            this.props.reduxState.slice(0,10).map((answer) => {
-                                return <li>{answer.question} = {eval(answer.question)}</li>
-                            })
-                        ) }
-                    </ul>
+                            ) : (
+                                this.props.reduxState.slice(0,10).map((answer) => {
+                                    return <li>{answer.question} = {eval(answer.question)}</li>
+                                })
+                                ) }
+                            </ul> */}
+
+                    {/* {this.state.question ? (
+                        <ul>
+                            <li>{this.state.question[0]} = {eval(this.state.question[0])}</li>
+                            <li>{this.state.question[1]} = {eval(this.state.question[1])}</li>
+                            <li>{this.state.question[2]} = {eval(this.state.question[2])}</li>
+                            <li>{this.state.question[3]} = {eval(this.state.question[3])}</li>
+                            <li>{this.state.question[4]} = {eval(this.state.question[4])}</li>
+                            <li>{this.state.question[5]} = {eval(this.state.question[5])}</li>
+                            <li>{this.state.question[6]} = {eval(this.state.question[6])}</li>
+                            <li>{this.state.question[7]} = {eval(this.state.question[7])}</li>
+                            <li>{this.state.question[8]} = {eval(this.state.question[8])}</li>
+                            <li>{this.state.question[9]} = {eval(this.state.question[9])}</li>
+                        </ul>
+                    ) : (
+                        <p>no answered questions</p>
+                        )} */}
+
+                    {/* <ul>
+                        {this.state.question.map(item => <li>{item} = {eval(item)}</li>)}
+                    </ul> */}
+                {JSON.stringify(this.state)}
                 </div>
+                <AnswerDisplay passedDown={this.state.question} />
             </div>
         );
     }
