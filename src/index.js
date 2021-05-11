@@ -4,10 +4,29 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+const operationReducer = (state = [], action) => {
+  switch(action.type) {
+    case 'ADD_EQUATION': 
+      console.log('testing', action.payload);
+      return [...state, action.payload];
+    default:
+      return state;
+  }
+}
+
+const storeInstance = createStore(
+  operationReducer
+);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={storeInstance}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
