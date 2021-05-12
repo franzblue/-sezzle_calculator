@@ -27,7 +27,7 @@ class AnswerDisplay extends Component {
   render() {
     return (
         <div className="py-2">
-            <b>10 Recent Equations (from all users)</b>
+            <b className="max-w-sm mx-auto flex justify-center">10 Recent Equations (from all users)</b>
             <div className="max-w-sm mx-auto border border-gray-500 flex p-6 bg-white rounded-lg shadow-2xl items-center">
                 {this.props.passedDown ? (
                     <ul className="mx-auto">
@@ -37,7 +37,7 @@ class AnswerDisplay extends Component {
                     <p className="mx-auto text-base text-gray-900 py-1">Please enter your equation</p>
                     )}
         </div>
-            <b>PROPS {JSON.stringify(this.props)}</b>
+            {/* <b>PROPS {JSON.stringify(this.props)}</b> */}
         </div>
 );
   }
