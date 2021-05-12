@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 const operationReducer = (state = [], action) => {
   switch(action.type) {
-    case 'ADD_EQUATION': 
+    case 'SET_OPERATIONS': 
       console.log('testing', action.payload);
       return [...state, action.payload];
     default:

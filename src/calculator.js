@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AnswerDisplay from './answerDisplay';
+import { connect } from 'react-redux';
 
 class Calculator extends Component {
     state = {
@@ -11,18 +12,41 @@ class Calculator extends Component {
     componentDidMount = () => {
         console.log('mounted state', this.state, 'and its props', this.props);
         this.getOperations();
+        this.updateOperations();
     }
       
     getOperations = () => {
         axios.get('http://localhost:5000/api/operations').then((response) => {
+            this.setState({
+                question: ''
+            });
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];
                 this.setState({ question: [...this.state.question, ...[element.question]] })
             }
+            this.props.dispatch( {type:'SET_OPERATIONS'} );
             console.log('results from get', response.data, 'and now the state is', this.state);
         }).catch((error) => {
             console.log('error fetching operations data', error);
         });
+    }
+
+    updateOperations = () => {
+        setInterval(() => {
+            axios.get('http://localhost:5000/api/operations').then((response) => {
+                this.setState({
+                    question: ''
+                });
+                for (let index = 0; index < response.data.length; index++) {
+                    const element = response.data[index];
+                    this.setState({ question: [...this.state.question, ...[element.question]] })
+                }
+                this.props.dispatch( {type:'SET_OPERATIONS'} );
+                console.log('results from get', response.data, 'and now the state is', this.state);
+            }).catch((error) => {
+                console.log('error fetching operations data', error);
+            });
+        }, 1500);
     }
 
     setInput = (event) => {
@@ -53,13 +77,15 @@ class Calculator extends Component {
         if(check === ' ') {
             alert('Please enter another number.')
         }
+        else if(check.length === 0) {
+            return null;
+        }
         else {
             axios.post('http://localhost:5000/api/operations', this.state)
             .then(() => this.getOperations())
             .catch(error => {
                 console.log('error making POST', error);
             });
-        window.location.reload();
         }
     }
 
@@ -206,4 +232,8 @@ class Calculator extends Component {
     }
 }
 
-export default Calculator;
+const mapStoreToProps = reduxStore => ({
+    reduxStore
+  });
+
+export default connect(mapStoreToProps)(Calculator);
