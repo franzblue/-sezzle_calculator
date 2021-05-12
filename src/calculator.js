@@ -27,7 +27,11 @@ class Calculator extends Component {
     }
 
     setInput = (event) => {
-        this.setState({ inputs: this.state.inputs.concat(Number(event.target.value)) });
+        if(event.target.value === '.') {
+            this.setState({ inputs: this.state.inputs.concat(event.target.value) });
+        } else {
+            this.setState({ inputs: this.state.inputs.concat(Number(event.target.value)) });
+        }
     }
     
     setOperator = (event) => {
@@ -59,176 +63,192 @@ class Calculator extends Component {
         window.location.reload();
         }
     }
-
+    
     render() {
         return (
             <div className="App">
-                <p>{!this.state.inputs ? (
-                    '.'
-                ) : (
-                    this.state.inputs
-                )}</p>
-                <form className="calculator-frame">
-                    <div className="calculator-row">
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="7" 
-                            onClick={this.setInput}>
-                            7
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="8" 
-                            onClick={this.setInput}>
-                            8
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="9" 
-                            onClick={this.setInput}>
-                            9
-                        </button>
-                        <button 
-                            type="button" 
-                            className="operator-btn" 
-                            value="/" 
-                            onClick={this.setOperator}>
-                            ÷
-                        </button>
+                <div className="bg-green-200">
+                    <div className="bg-gray-300 py-2 px-16 border border-gray-500">
+                        <h1 className="font-bold text-4xl">
+                            Sezzle Calculator
+                        </h1>
                     </div>
-                    <div className="calculator-row">
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="4" 
-                            onClick={this.setInput}>
-                            4
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="5" 
-                            onClick={this.setInput}>
-                            5
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="6" 
-                            onClick={this.setInput}>
-                            6
-                        </button>
-                        <button 
-                            type="button" 
-                            className="operator-btn" 
-                            value="*" 
-                            onClick={this.setOperator}>
-                            x
-                        </button>
-                    </div>
-                    <div className="calculator-row">
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="1" 
-                            onClick={this.setInput}>
-                            1
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="2" 
-                            onClick={this.setInput}>
-                            2
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="3" 
-                            onClick={this.setInput}>
-                            3
-                        </button>
-                        <button 
-                            type="button" 
-                            className="operator-btn" 
-                            value="-" 
-                            onClick={this.setOperator}>
-                            -
-                        </button>
-                    </div>
-                    <div className="calculator-row">
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value="0" 
-                            onClick={this.setInput}>
-                            0
-                        </button>
-                        <button 
-                            type="button" 
-                            className="number-btn" 
-                            value=".">
-                            .
-                        </button>
-                        <button 
-                            type="button" 
-                            onClick={this.handleOperation}>
-                            =
-                        </button>
-                        <button 
-                            type="button" 
-                            className="operator-btn" 
-                            value="+" 
-                            onClick={this.setOperator}>
-                            +
-                        </button>
-                    </div>
-                    <button 
-                        type="button" 
-                        className="clear-btn" 
-                        onClick={this.clearInputs}>
-                        CLEAR
-                    </button>
-                </form>
-                <div>
-                    {/* <ul>
-                        {this.state.answers.length > 10 ? (
-                            this.props.reduxState.slice(this.state.answers.length - 10, this.state.answers.length).map((answer) => {
-                                return <li>{answer.question} = {eval(answer.question)}</li>
-                            })
-                            ) : (
-                                this.props.reduxState.slice(0,10).map((answer) => {
+                    <AnswerDisplay passedDown={this.state.question} />
+                    <p>{!this.state.inputs ? (
+                        '.'
+                    ) : (
+                        this.state.inputs
+                    )}</p>
+                    <form className="bg-blue-700 py-2 px-16">
+                        <div className="grid grid-cols-4 gap-2 py-2">
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="7" 
+                                onClick={this.setInput}>
+                                7
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="8" 
+                                onClick={this.setInput}>
+                                8
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="9" 
+                                onClick={this.setInput}>
+                                9
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="/" 
+                                onClick={this.setOperator}>
+                                ÷
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 py-2">
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="4" 
+                                onClick={this.setInput}>
+                                4
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="5" 
+                                onClick={this.setInput}>
+                                5
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="6" 
+                                onClick={this.setInput}>
+                                6
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="*" 
+                                onClick={this.setOperator}>
+                                x
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 py-2">
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="1" 
+                                onClick={this.setInput}>
+                                1
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="2" 
+                                onClick={this.setInput}>
+                                2
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="3" 
+                                onClick={this.setInput}>
+                                3
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="-" 
+                                onClick={this.setOperator}>
+                                -
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 py-2">
+                            <button
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="0" 
+                                onClick={this.setInput}>
+                                0
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="."
+                                onClick={this.setInput}>
+                                .
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                onClick={this.handleOperation}>
+                                =
+                            </button>
+                            <button 
+                                type="button" 
+                                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+                                value="+" 
+                                onClick={this.setOperator}>
+                                +
+                            </button>
+                        </div>
+                    </form>
+                    {/* <div>
+                        <ul>
+                            {this.state.answers.length > 10 ? (
+                                this.props.reduxState.slice(this.state.answers.length - 10, this.state.answers.length).map((answer) => {
                                     return <li>{answer.question} = {eval(answer.question)}</li>
                                 })
-                                ) }
-                            </ul> */}
+                                ) : (
+                                    this.props.reduxState.slice(0,10).map((answer) => {
+                                        return <li>{answer.question} = {eval(answer.question)}</li>
+                                    })
+                                    ) }
+                                </ul>
 
-                    {/* {this.state.question ? (
+                        {this.state.question ? (
+                            <ul>
+                                <li>{this.state.question[0]} = {eval(this.state.question[0])}</li>
+                                <li>{this.state.question[1]} = {eval(this.state.question[1])}</li>
+                                <li>{this.state.question[2]} = {eval(this.state.question[2])}</li>
+                                <li>{this.state.question[3]} = {eval(this.state.question[3])}</li>
+                                <li>{this.state.question[4]} = {eval(this.state.question[4])}</li>
+                                <li>{this.state.question[5]} = {eval(this.state.question[5])}</li>
+                                <li>{this.state.question[6]} = {eval(this.state.question[6])}</li>
+                                <li>{this.state.question[7]} = {eval(this.state.question[7])}</li>
+                                <li>{this.state.question[8]} = {eval(this.state.question[8])}</li>
+                                <li>{this.state.question[9]} = {eval(this.state.question[9])}</li>
+                            </ul>
+                        ) : (
+                            <p>no answered questions</p>
+                            )}
+
                         <ul>
-                            <li>{this.state.question[0]} = {eval(this.state.question[0])}</li>
-                            <li>{this.state.question[1]} = {eval(this.state.question[1])}</li>
-                            <li>{this.state.question[2]} = {eval(this.state.question[2])}</li>
-                            <li>{this.state.question[3]} = {eval(this.state.question[3])}</li>
-                            <li>{this.state.question[4]} = {eval(this.state.question[4])}</li>
-                            <li>{this.state.question[5]} = {eval(this.state.question[5])}</li>
-                            <li>{this.state.question[6]} = {eval(this.state.question[6])}</li>
-                            <li>{this.state.question[7]} = {eval(this.state.question[7])}</li>
-                            <li>{this.state.question[8]} = {eval(this.state.question[8])}</li>
-                            <li>{this.state.question[9]} = {eval(this.state.question[9])}</li>
+                            {this.state.question.map(item => <li>{item} = {eval(item)}</li>)}
                         </ul>
-                    ) : (
-                        <p>no answered questions</p>
-                        )} */}
-
-                    {/* <ul>
-                        {this.state.question.map(item => <li>{item} = {eval(item)}</li>)}
-                    </ul> */}
-                {JSON.stringify(this.state)}
+                    {JSON.stringify(this.state)}
+                    </div> */}
+                    <div className="py-12">
+                        <button 
+                            type="button" 
+                            className="clear-btn" 
+                            onClick={this.clearInputs}>
+                            <strong className="font-bold text-red-700 hover:bg-red-400 bg-red-100 border border-red-400 px-4 py-3 rounded relative my-">CLEAR</strong>
+                        </button>
+                    </div>
                 </div>
-                <AnswerDisplay passedDown={this.state.question} />
+                <div className="bg-gray-300 py-12 border border-gray-500">
+                    <h1 className="font-bold">
+                        © Franz Inc
+                    </h1>
+                </div>
             </div>
         );
     }

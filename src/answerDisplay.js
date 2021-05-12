@@ -26,17 +26,20 @@ class AnswerDisplay extends Component {
 
   render() {
     return (
-        <div>
+        <div className="py-2">
+            <b>10 Recent Equations (from all users)</b>
+            <div className="max-w-sm mx-auto border border-gray-500 flex p-6 bg-white rounded-lg shadow-2xl items-center">
                 {this.props.passedDown ? (
-                    <ul>
-                        {this.props.passedDown.map(item => <li>{item} = {eval(item)}</li>)}
+                    <ul className="mx-auto">
+                        {this.props.passedDown.map(item => <li className="text-base text-gray-900 py-1">{item} = {eval(item)}</li>)}
                     </ul>
                 ) : (
-                    <p>Please enter your equation</p>
+                    <p className="mx-auto text-base text-gray-900 py-1">Please enter your equation</p>
                     )}
-                <b>PROPS {JSON.stringify(this.props)}</b>
         </div>
-    );
+            <b>PROPS {JSON.stringify(this.props)}</b>
+        </div>
+);
   }
 }
 
