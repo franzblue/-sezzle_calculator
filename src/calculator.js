@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import AnswerDisplay from './answerDisplay';
 import { connect } from 'react-redux';
 
 class Calculator extends Component {
@@ -92,9 +91,20 @@ class Calculator extends Component {
     render() {
         return (
             <>
-                <AnswerDisplay passedDown={this.state.question} />
+                <div className="py-2">
+                <b className="max-w-sm mx-auto flex justify-center">10 Recent Equations (from all users)</b>
+                <div className="max-w-sm mx-auto border border-gray-500 flex p-6 bg-white rounded-lg shadow-2xl items-center">
+                    {this.state.question ? (
+                        <ul className="mx-auto">
+                            {this.state.question.map(item => <li className="text-base text-gray-900 py-1 text-xl">{item} = {eval(item)}</li>)}
+                        </ul>
+                    ) : (
+                        <p className="mx-auto text-base text-gray-900 py-1 text-xl">Please enter your equation</p>
+                        )}
+                    </div>
+                </div>
                 <form className="max-w-sm mx-auto bg-blue-700 border border-gray-500 p-6 my-4 bg-white rounded-lg shadow-2xl items-center">
-                    <p className="text-white bg-gray font-bold">{!this.state.inputs ? (
+                    <p className="text-white bg-gray font-bold text-4xl">{!this.state.inputs ? (
                         0
                     ) : (
                         this.state.inputs
