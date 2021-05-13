@@ -11,7 +11,7 @@ class Calculator extends Component {
     componentDidMount = () => {
         console.log('mounted state', this.state, 'and its props', this.props);
         this.getOperations();
-        // this.updateOperations();
+        this.updateOperations();
     }
       
     getOperations = () => {
