@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build:css": "tailwind build src/style.css -o public/style.css",
-    "start": "react-scripts start",
+    "start": "node server/server.js",
     "client": "react-scripts start",
     "server": "nodemon --watch server server/server.js",
     "build": "react-scripts build webpack --config webpack.config.js",
