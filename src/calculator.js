@@ -15,7 +15,7 @@ class Calculator extends Component {
     }
       
     getOperations = () => {
-        axios.get('http://localhost:5000/api/operations').then((response) => {
+        axios.get('/api/operations').then((response) => {
             this.setState({
                 question: ''
             });
@@ -32,7 +32,7 @@ class Calculator extends Component {
 
     updateOperations = () => {
         setInterval(() => {
-            axios.get('http://localhost:5000/api/operations').then((response) => {
+            axios.get('/api/operations').then((response) => {
                 this.setState({
                     question: ''
                 });
@@ -45,7 +45,7 @@ class Calculator extends Component {
             }).catch((error) => {
                 console.log('error fetching operations data', error);
             });
-        }, 1500);
+        }, 3000);
     }
 
     setInput = (event) => {
@@ -80,7 +80,7 @@ class Calculator extends Component {
             return null;
         }
         else {
-            axios.post('http://localhost:5000/api/operations', this.state)
+            axios.post('/api/operations', this.state)
             .then(() => this.getOperations())
             .catch(error => {
                 console.log('error making POST', error);
