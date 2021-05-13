@@ -1,3 +1,3 @@
 # Sezzle Calculator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This was a technical challenge which logs calculations as they happen and shares those calculations with everyone connected to the app.
